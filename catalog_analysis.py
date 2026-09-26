@@ -191,6 +191,34 @@ def top_n_by_rating(movies, n=3):
     return [(movie["title"], movie["rating"]) for movie in sorted_movies[:n]]
 
 
+def count_by_genre(movies):
+    """Return the number of movies in each genre."""
+    genre_counts = {}
+    for movie in movies:
+        for genre in movie["genres"]:
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+    return genre_counts
+
+
+def actor_filmography(movies):
+    """Return movie titles for each actor in catalog order."""
+    filmography = {}
+    for movie in movies:
+        for actor in movie["actors"]:
+            actor_titles = filmography.get(actor, [])
+            actor_titles.append(movie["title"])
+            filmography[actor] = actor_titles
+    return filmography
+
+
+def above_average_ratings(movies):
+    """Return titles and ratings above the catalog's rounded average rating."""
+    average = average_rating(movies)
+    return {
+        movie["title"]: movie["rating"] for movie in movies if movie["rating"] > average
+    }
+
+
 def main():
     print("Фильмы без жанра comedy:")
     print_non_comedy_movies(movies)
@@ -202,6 +230,9 @@ def main():
     print(make_slug("Silent Hours"))
     print(format_report_line(movies[7]))
     print(top_n_by_rating(movies, 3))
+    print(count_by_genre(movies))
+    print(actor_filmography(movies))
+    print(above_average_ratings(movies))
 
 
 if __name__ == "__main__":
