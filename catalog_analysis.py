@@ -85,13 +85,13 @@ movies = [
 
 
 def average_rating(movies):
-    """Return the average rating rounded to one decimal for a nonempty catalog."""
+    """Return the average rating rounded to one decimal."""
     total_rating = sum(movie["rating"] for movie in movies)
     return round(total_rating / len(movies), 1)
 
 
 def catalog_age_stats(movies, current_year=2026):
-    """Return oldest, newest and rounded-up average ages for a nonempty catalog."""
+    """Return oldest, newest and rounded-up average ages."""
     ages = [current_year - movie["year"] for movie in movies]
     return max(ages), min(ages), math.ceil(sum(ages) / len(ages))
 
@@ -101,6 +101,27 @@ def duration_in_hours(minutes):
     hours = minutes // 60
     remaining_minutes = minutes % 60
     return f"{hours}ч {remaining_minutes}м"
+
+
+def rating_tier(rating):
+    """Return the category corresponding to the movie rating."""
+    if rating >= 9:
+        return "шедевр"
+    elif rating >= 7:
+        return "хорошо"
+    else:
+        return "средне" if rating >= 5 else "слабо"
+
+
+def decade_label(year):
+    """Return the release period label for the given year."""
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
+        case _:
+            return "старые"
 
 
 def main():
