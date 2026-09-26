@@ -219,6 +219,24 @@ def above_average_ratings(movies):
     }
 
 
+def all_genres(movies):
+    """Return the set of all unique genres in the catalog."""
+    genres = set()
+    for movie in movies:
+        genres.update(movie["genres"])
+    return genres
+
+
+def common_actors(movie1, movie2):
+    """Return the set of actors appearing in both movies."""
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+
+def genres_only_in_one(movies_a, movies_b):
+    """Return genres present in the first catalog but absent from the second."""
+    return all_genres(movies_a) - all_genres(movies_b)
+
+
 def main():
     print("Фильмы без жанра comedy:")
     print_non_comedy_movies(movies)
@@ -233,6 +251,9 @@ def main():
     print(count_by_genre(movies))
     print(actor_filmography(movies))
     print(above_average_ratings(movies))
+    print(all_genres(movies))
+    print(common_actors(movies[0], movies[3]))
+    print(genres_only_in_one(movies[5:6], movies[:5]))
 
 
 if __name__ == "__main__":
