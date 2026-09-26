@@ -124,8 +124,42 @@ def decade_label(year):
             return "старые"
 
 
+def print_non_comedy_movies(movies):
+    """Print titles of movies that do not belong to the comedy genre."""
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(movie["title"])
+
+
+def print_first_masterpiece(movies):
+    """Print the first movie rated above 9.0 or a message if none is found."""
+    index = 0
+    while index < len(movies):
+        movie = movies[index]
+        if movie["rating"] > 9.0:
+            print(movie["title"])
+            break
+        index += 1
+    else:
+        print("Шедевров не найдено")
+
+
+def count_long_movies(movies, threshold=120):
+    """Count movies with a duration strictly greater than the threshold."""
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+
 def main():
-    print("Hello from catalog_analysis.py!")
+    print("Фильмы без жанра comedy:")
+    print_non_comedy_movies(movies)
+    print("\nПервый фильм с рейтингом выше 9.0:")
+    print_first_masterpiece(movies)
+    print(f"\nФильмов длиннее 120 минут: {count_long_movies(movies)}")
 
 
 if __name__ == "__main__":
