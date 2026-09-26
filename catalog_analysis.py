@@ -154,12 +154,41 @@ def count_long_movies(movies, threshold=120):
     return count
 
 
+def normalize_title(title):
+    """Capitalize the first letter of each word and join words with spaces."""
+    words = title.split()
+    normalized_words = []
+    for word in words:
+        normalized_words.append(word[0].upper() + word[1:])
+    return " ".join(normalized_words)
+
+
+def make_slug(title):
+    """Convert a normalized title to a lowercase slug separated by hyphens."""
+    return normalize_title(title).lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    """Format a movie with its normalized title, duration and sorted genres."""
+    title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    return (
+        f'"{title}" ({movie["year"]}) — {movie["rating"]}/10, '
+        f"{duration}, жанры: {genres}"
+    )
+
+
 def main():
     print("Фильмы без жанра comedy:")
     print_non_comedy_movies(movies)
     print("\nПервый фильм с рейтингом выше 9.0:")
     print_first_masterpiece(movies)
     print(f"\nФильмов длиннее 120 минут: {count_long_movies(movies)}")
+
+    print(normalize_title("silent hours"))
+    print(make_slug("Silent Hours"))
+    print(format_report_line(movies[7]))
 
 
 if __name__ == "__main__":
